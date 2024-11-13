@@ -1,7 +1,7 @@
 ## Run
 ```bash
 docker compose -f airflow-compose up
-docker compose down
+docker compose -f airflow-compose down
 ```
 
 ## DAG
