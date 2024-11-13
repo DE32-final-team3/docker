@@ -1,5 +1,5 @@
 ## Run
 ```bash
-docker compose -f spark-compose up
-docker compose down
+docker compose -f spark-compose.yaml up
+docker compose -f spark-compose.yaml down
 ```
