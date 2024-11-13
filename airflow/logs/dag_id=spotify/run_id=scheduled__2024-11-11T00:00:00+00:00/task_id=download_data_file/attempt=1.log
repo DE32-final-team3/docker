@@ -1,0 +1,32 @@
+[2024-11-13T00:58:46.628+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2024-11-13T00:58:46.655+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: spotify.download_data_file scheduled__2024-11-11T00:00:00+00:00 [queued]>
+[2024-11-13T00:58:46.664+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: spotify.download_data_file scheduled__2024-11-11T00:00:00+00:00 [queued]>
+[2024-11-13T00:58:46.665+0000] {taskinstance.py:2866} INFO - Starting attempt 1 of 2
+[2024-11-13T00:58:46.677+0000] {taskinstance.py:2889} INFO - Executing <Task(BashOperator): download_data_file> on 2024-11-11 00:00:00+00:00
+[2024-11-13T00:58:46.683+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=193) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2024-11-13T00:58:46.684+0000] {standard_task_runner.py:72} INFO - Started process 197 to run task
+[2024-11-13T00:58:46.685+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'spotify', 'download_data_file', 'scheduled__2024-11-11T00:00:00+00:00', '--job-id', '13', '--raw', '--subdir', 'DAGS_FOLDER/spotify.py', '--cfg-path', '/tmp/tmp943r6esj']
+[2024-11-13T00:58:46.686+0000] {standard_task_runner.py:105} INFO - Job 13: Subtask download_data_file
+[2024-11-13T00:58:46.732+0000] {task_command.py:467} INFO - Running <TaskInstance: spotify.download_data_file scheduled__2024-11-11T00:00:00+00:00 [running]> on host d181d84c4573
+[2024-11-13T00:58:46.847+0000] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='spotify' AIRFLOW_CTX_TASK_ID='download_data_file' AIRFLOW_CTX_EXECUTION_DATE='2024-11-11T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2024-11-11T00:00:00+00:00'
+[2024-11-13T00:58:46.849+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2024-11-13T00:58:46.850+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2024-11-13T00:58:46.850+0000] {logging_mixin.py:190} INFO - Current task name:download_data_file state:running start_date:2024-11-13 00:58:46.655943+00:00
+[2024-11-13T00:58:46.850+0000] {logging_mixin.py:190} INFO - Dag name:spotify and current dag run status:running
+[2024-11-13T00:58:46.851+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2024-11-13T00:58:46.852+0000] {subprocess.py:78} INFO - Tmp dir root location: /tmp
+[2024-11-13T00:58:46.852+0000] {subprocess.py:88} INFO - Running command: ['/usr/bin/bash', '-c', 'date']
+[2024-11-13T00:58:46.867+0000] {subprocess.py:99} INFO - Output:
+[2024-11-13T00:58:46.870+0000] {subprocess.py:106} INFO - Wed Nov 13 00:58:46 UTC 2024
+[2024-11-13T00:58:46.871+0000] {subprocess.py:110} INFO - Command exited with return code 0
+[2024-11-13T00:58:47.095+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2024-11-13T00:58:47.096+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=spotify, task_id=download_data_file, run_id=scheduled__2024-11-11T00:00:00+00:00, execution_date=20241111T000000, start_date=20241113T005846, end_date=20241113T005847
+[2024-11-13T00:58:47.112+0000] {logging_mixin.py:190} INFO - Task instance in success state
+[2024-11-13T00:58:47.112+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: running
+[2024-11-13T00:58:47.113+0000] {logging_mixin.py:190} INFO - Dag name:spotify queued_at:2024-11-13 00:58:40.268554+00:00
+[2024-11-13T00:58:47.113+0000] {logging_mixin.py:190} INFO - Task hostname:d181d84c4573 operator:BashOperator
+[2024-11-13T00:58:47.139+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2024-11-13T00:58:47.169+0000] {taskinstance.py:3895} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2024-11-13T00:58:47.171+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
