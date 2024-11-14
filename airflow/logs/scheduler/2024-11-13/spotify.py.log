@@ -2459,3 +2459,10 @@ IndentationError: expected an indented block after 'with' statement on line 10
 [2024-11-13T23:59:20.163+0000] {logging_mixin.py:190} INFO - [2024-11-13T23:59:20.163+0000] {dag.py:3239} INFO - Sync 1 DAGs
 [2024-11-13T23:59:20.189+0000] {logging_mixin.py:190} INFO - [2024-11-13T23:59:20.188+0000] {dag.py:4180} INFO - Setting next_dagrun for spotify_token_dag to 2024-11-13 23:00:00+00:00, run_after=2024-11-14 00:00:00+00:00
 [2024-11-13T23:59:20.209+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/spotify.py took 0.091 seconds
+[2024-11-13T23:59:50.283+0000] {processor.py:186} INFO - Started process (PID=325) to work on /opt/airflow/dags/spotify.py
+[2024-11-13T23:59:50.285+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/spotify.py for tasks to queue
+[2024-11-13T23:59:50.287+0000] {logging_mixin.py:190} INFO - [2024-11-13T23:59:50.287+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/spotify.py
+[2024-11-13T23:59:50.297+0000] {processor.py:925} INFO - DAG(s) 'spotify_token_dag' retrieved from /opt/airflow/dags/spotify.py
+[2024-11-13T23:59:50.320+0000] {logging_mixin.py:190} INFO - [2024-11-13T23:59:50.319+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2024-11-13T23:59:50.345+0000] {logging_mixin.py:190} INFO - [2024-11-13T23:59:50.345+0000] {dag.py:4180} INFO - Setting next_dagrun for spotify_token_dag to 2024-11-13 23:00:00+00:00, run_after=2024-11-14 00:00:00+00:00
+[2024-11-13T23:59:50.365+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/spotify.py took 0.090 seconds
