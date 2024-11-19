@@ -186,3 +186,8 @@ services:
 
 volumes:
   postgres-db-volume:
+
+networks:
+  monitoring:
+    external: true
+
