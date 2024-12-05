@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ../prometheus/prometheus.yaml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - monitoring
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    networks:
+      - monitoring
+    depends_on:
+      - prometheus
+
+  airflow-webserver:
+    image: apache/airflow:2.10.3
+    networks:
+      - monitoring
+
+  spark-master:
+    image: apache/spark:latest
+    networks:
+      - monitoring
+
+  spark-worker-1:
+    image: apache/spark:latest
+    networks:
+      - monitoring
+
+  spark-worker-2:
+    image: apache/spark:latest
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
+    driver: bridge
+

@@ -6,7 +6,7 @@ services:
       - SPARK_MODE=master
     command: "/opt/spark/bin/spark-class org.apache.spark.deploy.master.Master -h spark-master"
     ports:
-      - "8080:8080"
+      - "6000:8080"
       - "7077:7077"
 
   spark-worker-1:
@@ -19,7 +19,7 @@ services:
     depends_on:
       - spark-master
     ports:
-      - "8081:8081"
+      - "8001:8081"
 
   spark-worker-2:
     image: apache/spark:latest
@@ -31,7 +31,7 @@ services:
     depends_on:
       - spark-master
     ports:
-      - "8082:8081"
+      - "8002:8081"
 
   zeppelin:
     image: apache/zeppelin:0.9.0
@@ -48,3 +48,8 @@ services:
       - ZEPPELIN_SPARK_USEHIVECONTEXT=false
     volumes:
       - ./notebooks:/zeppelin/notebook
+
+networks:
+  monitoring:
+    external: true
+
