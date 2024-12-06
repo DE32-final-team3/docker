@@ -2,7 +2,7 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.operators.empty import EmptyOperator
 from datetime import datetime, timedelta
-from py.processing import process_movie_data
+from py.processing import process_movie_data, preprocess_genres
 from py.calculate import compute_final_similarity
 
 # 전역 변수 정의
@@ -41,6 +41,17 @@ with DAG(
         processed_data = process_movie_data(USER_MOVIE_DICT)
         context['ti'].xcom_push(key='processed_data', value=processed_data)
 
+    def map_genres(**context):
+        processed_data = context['ti'].xcom_pull(key='processed_data')
+        user_genre_matrix = processed_data['user_genre_matrix'].copy()
+        for user_id, genres in user_genre_matrix.items():
+            user_genre_matrix[user_id] = [
+                {"genre": genre, "mapped_name": preprocess_genres([genre])[0]}
+                for genre in genres.keys()
+            ]
+        context['ti'].xcom_push(key='mapped_genres', value=user_genre_matrix)
+
+
     def calculate_similarity(**context):
         processed_data = context['ti'].xcom_pull(key='processed_data')
         similarity_matrix = compute_final_similarity(**processed_data)
@@ -66,6 +77,12 @@ with DAG(
         python_callable=collect_and_process_data,
         provide_context=True,
     )
+    
+    genre_mapping_task = PythonOperator(
+        task_id="map_genres",
+        python_callable=map_genres,
+        provide_context=True,
+    )
 
     similarity_task = PythonOperator(
         task_id="calculate_similarity",
@@ -87,4 +104,4 @@ with DAG(
         task_id="end"
     )
 
-    start_task >> collect_task >> similarity_task >> save_task >> end_task
+    start_task >> collect_task >> genre_mapping_task >> similarity_task >> save_task >> end_task
