@@ -14,7 +14,8 @@ USER_MOVIE_DICT = {
     'thephunkmonk': [115, 985, 1018, 793, 29269, 31512, 293670, 429200, 798286, 473033],
 }
 
-MONGO_URI = "mongodb://root:team3@localhost:27017/?authSource=admin"
+# MONGO_URI = "mongodb://root:team3@mongodb:27017/?authSource=admin"
+MONGO_URI = "mongodb://root:team3@172.17.0.1:27017/?authSource=admin"
 DB_NAME = "similarity"
 COLLECTION_NAME = "similarity_results"
 

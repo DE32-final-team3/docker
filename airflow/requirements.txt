@@ -2,4 +2,5 @@ pymongo
 pandas
 numpy
 scikit-learn
-logging
+motor
+asyncio

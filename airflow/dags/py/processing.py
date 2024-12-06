@@ -1,6 +1,32 @@
 import pandas as pd
 from py.calculate import fetch_movies
 
+GENRE_MAP = {
+    28: "액션",
+    12: "모험",
+    16: "애니메이션",
+    35: "코미디",
+    80: "범죄",
+    99: "다큐멘터리",
+    18: "드라마",
+    10751: "가족",
+    14: "판타지",
+    36: "역사",
+    27: "공포",
+    10402: "음악",
+    9648: "미스터리",
+    10749: "로맨스",
+    878: "SF",
+    10770: "TV 영화",
+    53: "스릴러",
+    10752: "전쟁",
+    37: "서부",
+}
+
+def preprocess_genres(genre_ids: list[int]) -> list[str]:
+    """장르 ID를 한글로 매핑"""
+    return [GENRE_MAP.get(genre_id, "") for genre_id in genre_ids]
+
 # 장르 매트릭스 생성
 def create_user_genre_matrix(df):
     expanded_df = df.explode("genres")
@@ -10,7 +36,6 @@ def create_user_genre_matrix(df):
     # 2번 이상 등장한 장르만 유지
     user_genre_matrix = user_genre_matrix.where(user_genre_matrix >= 2, other=0)
     return user_genre_matrix
-
 
 # 사용자-감독 집합 생성
 def create_user_director_sets(df):
