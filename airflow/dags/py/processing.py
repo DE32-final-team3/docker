@@ -1,11 +1,16 @@
 import pandas as pd
+from py.calculate import fetch_movies
 
 # 장르 매트릭스 생성
 def create_user_genre_matrix(df):
-    expanded_df = df.explode("genres")  # 장르를 펼쳐서 행 확장
+    expanded_df = df.explode("genres")
     user_genre_counts = expanded_df.groupby(["user_id", "genres"]).size().reset_index(name="count")
     user_genre_matrix = user_genre_counts.pivot_table(index="user_id", columns="genres", values="count", fill_value=0)
+
+    # 2번 이상 등장한 장르만 유지
+    user_genre_matrix = user_genre_matrix.where(user_genre_matrix >= 2, other=0)
     return user_genre_matrix
+
 
 # 사용자-감독 집합 생성
 def create_user_director_sets(df):
@@ -47,3 +52,31 @@ def create_user_title_sets(df):
     )
     return user_title_sets
 
+def process_movie_data(user_movie_dict):
+    data = []
+    for user_id, movie_ids in user_movie_dict.items():
+        movies = fetch_movies(movie_ids)
+        for movie in movies:
+            data.append({
+                "user_id": user_id,
+                "movie_id": movie["movie_id"],
+                "title": movie["title"],
+                "genres": movie["genres"],
+                "director": movie["director"],
+                "cast": movie["cast"]
+            })
+    df = pd.DataFrame(data)
+
+    # 매트릭스 및 집합 생성
+    user_genre_matrix = create_user_genre_matrix(df).to_dict()  # DataFrame을 dict로 변환
+    user_director_sets = {k: list(v) for k, v in create_user_director_sets(df).items()}  # set -> list
+    user_cast_sets = {k: list(v) for k, v in create_user_cast_sets(df).items()}  # set -> list
+    user_title_sets = {k: list(v) for k, v in create_user_title_sets(df).items()}  # set -> list
+
+    return {
+        "user_ids": list(df['user_id'].unique()),  # numpy array -> list
+        "user_genre_matrix": user_genre_matrix,
+        "user_director_sets": user_director_sets,
+        "user_cast_sets": user_cast_sets,
+        "user_title_sets": user_title_sets,
+    }

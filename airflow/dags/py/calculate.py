@@ -32,12 +32,28 @@ def calculate_jaccard_similarity(user_sets, user_ids):
     matrix.fillna(1, inplace=True)
     return matrix
 
-# 데이터 통합 및 최종 유사도 합산
 def compute_final_similarity(user_ids, user_genre_matrix, user_director_sets, user_cast_sets, user_title_sets):
+    # user_genre_matrix 복원 (dict -> DataFrame)
+    user_genre_matrix = pd.DataFrame.from_dict(user_genre_matrix)
+
+    # user_director_sets, user_cast_sets, user_title_sets 복원 (list -> set)
+    user_director_sets = {k: set(v) for k, v in user_director_sets.items()}
+    user_cast_sets = {k: set(v) for k, v in user_cast_sets.items()}
+    user_title_sets = {k: set(v) for k, v in user_title_sets.items()}
+
+    # 1. 코사인 유사도 계산 (장르)
     cosine_sim = calculate_cosine_similarity(user_genre_matrix)
+    cosine_sim_df = pd.DataFrame(cosine_sim, index=user_genre_matrix.index, columns=user_genre_matrix.index)
+
+    # 2. 자카드 유사도 계산 (감독, 배우, 제목)
     jaccard_director = calculate_jaccard_similarity(user_director_sets, user_ids)
     jaccard_cast = calculate_jaccard_similarity(user_cast_sets, user_ids)
     jaccard_title = calculate_jaccard_similarity(user_title_sets, user_ids)
-    cosine_sim_df = pd.DataFrame(cosine_sim, index=user_ids, columns=user_ids)
-    return cosine_sim_df + jaccard_director + jaccard_cast + jaccard_title
 
+    # 3. 인덱스와 열 이름 기준으로 행렬 합산
+    combined_similarity = cosine_sim_df.add(jaccard_director, fill_value=0)
+    combined_similarity = combined_similarity.add(jaccard_cast, fill_value=0)
+    combined_similarity = combined_similarity.add(jaccard_title, fill_value=0)
+
+    # 4. 결과 반환
+    return combined_similarity.reset_index().to_dict(orient="records")
