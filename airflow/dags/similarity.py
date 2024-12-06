@@ -2,6 +2,7 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.operators.empty import EmptyOperator
 from datetime import datetime, timedelta
+import requests
 from py.processing import process_movie_data, preprocess_genres
 from py.calculate import compute_final_similarity
 
@@ -37,7 +38,17 @@ with DAG(
     catchup=False,
 ) as dag:
     
+    def fetch_user_movie_dict():
+        # url 예시
+        url = "http://fastapi:8000/user/movies"  
+        response = requests.get(url)
+        return response.json()  
+
     def collect_and_process_data(**context):
+        # user_movie_dict = fetch_user_movie_dict()
+        # if not user_movie_dict:
+        #     raise ValueError("Failed to fetch user movie data from FastAPI")
+        # processed_data = process_movie_data(user_movie_dict)
         processed_data = process_movie_data(USER_MOVIE_DICT)
         context['ti'].xcom_push(key='processed_data', value=processed_data)
 
