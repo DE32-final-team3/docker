@@ -24,7 +24,6 @@ GENRE_MAP = {
 }
 
 def preprocess_genres(genre_ids: list[int]) -> list[str]:
-    """장르 ID를 한글로 매핑"""
     return [GENRE_MAP.get(genre_id, "") for genre_id in genre_ids]
 
 # 장르 매트릭스 생성
