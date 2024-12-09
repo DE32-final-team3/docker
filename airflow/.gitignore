@@ -5,5 +5,4 @@
 # Airflow logs
 logs/
 logs/*
-
-logs/
+logs/scheduler/
