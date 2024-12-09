@@ -121,23 +121,6 @@ services:
       airflow-init:
         condition: service_completed_successfully
 
-  airflow-triggerer:
-    <<: *airflow-common
-    command: bash -c "
-      pip install --no-cache-dir -r /requirements.txt &&
-      airflow triggerer"
-    healthcheck:
-      test: ["CMD-SHELL", 'airflow jobs check --job-type TriggererJob --hostname "$${HOSTNAME}"']
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 30s
-    restart: always
-    depends_on:
-      <<: *airflow-common-depends-on
-      airflow-init:
-        condition: service_completed_successfully
-
   airflow-init:
     <<: *airflow-common
     entrypoint: /bin/bash
@@ -158,25 +141,6 @@ services:
     user: "0:0"
     volumes:
       - ${AIRFLOW_PROJ_DIR:-.}:/sources
-    # networks:
-    #   - shared_network
-
-  flower:
-    <<: *airflow-common
-    command: celery flower
-    ports:
-      - "5555:5555"
-    healthcheck:
-      test: ["CMD", "curl", "--fail", "http://localhost:5555/"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 30s
-    restart: always
-    depends_on:
-      <<: *airflow-common-depends-on
-      airflow-init:
-        condition: service_completed_successfully
     # networks:
     #   - shared_network
 
