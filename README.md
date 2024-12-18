@@ -1,7 +1,7 @@
 # Apache Airflow in Docker Container
 
 ### 파일 설명
-```python
+```
 ├── airflow
 │   ├── airflow-compose.yml #airflow를 실행 하는 docker compose file
 │   ├── dags
@@ -20,6 +20,6 @@
 ```
 
 ### docker compose 실행
-```python
+```
 docker compose -f airflow-compose.yml up -d
 ```
