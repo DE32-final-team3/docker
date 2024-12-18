@@ -1,1 +1,9 @@
 *.log
+# Python bytecode
+**/__pycache__/
+*.pyc
+
+# Airflow logs
+logs/
+logs/*
+logs/scheduler/
